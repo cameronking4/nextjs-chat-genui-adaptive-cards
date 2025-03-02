@@ -1,6 +1,7 @@
 # Adaptive Cards Chat
 
 A Next.js chat application that uses Adaptive Cards to generate and render dynamic, interactive responses.
+Learn more about [Adaptive Cards](https://adaptivecards.io/)
 
 ## Features
 - Chat interface with AI-powered responses
