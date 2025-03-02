@@ -3,11 +3,12 @@
 A Next.js chat application that uses Adaptive Cards to render dynamic, interactive responses.
 
 ## Features
-
 - Chat interface with AI-powered responses
 - Dynamic rendering of Adaptive Cards for structured data
 - Interactive card elements (buttons, forms, etc.)
 - Card action handling via API endpoints
+
+[![AWESOME AI Chatbots with Generative UX using Microsoft Adaptive Cards](https://github.com/user-attachments/assets/9b975776-445f-4c09-abd5-9826affd6eaf)](https://www.youtube.com/watch?v=HrGIL2Cgdrs)
 
 ## What are Adaptive Cards?
 
@@ -47,17 +48,7 @@ This project implements Adaptive Cards in a chat interface using:
    - Includes utility functions for working with cards
    - Handles variable replacement in templates
 
-## Card Types
-
-The application supports various types of Adaptive Cards:
-
-1. **Welcome Card** - Shown to new users
-2. **Weather Card** - Displays weather information
-3. **To-Do List Card** - Interactive to-do list management
-4. **Quiz/Poll Card** - Interactive quizzes and polls
-5. **Error Card** - Displays error messages
-
-## Example Card JSON
+## Example Adaptive Card JSON
 
 Here's an example of a simple Adaptive Card:
 
