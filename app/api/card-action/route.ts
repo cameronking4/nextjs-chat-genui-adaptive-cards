@@ -1,6 +1,29 @@
 import { NextResponse } from "next/server"
 import { getCardTemplate } from "@/lib/adaptive-cards"
 
+// Mock data for Azure resources
+const mockVMs = [
+  { name: "vm-prod-01", resourceGroup: "rg-production", location: "eastus" },
+  { name: "vm-dev-01", resourceGroup: "rg-development", location: "westus2" },
+  { name: "vm-test-01", resourceGroup: "rg-testing", location: "centralus" },
+];
+
+// Mock function to execute KQL queries
+const executeKQLQuery = (query: string) => {
+  console.log(`Executing KQL query: ${query}`);
+  
+  // Simple parsing to extract what resources we're looking for
+  if (query.includes("Microsoft.Compute/virtualMachines")) {
+    return mockVMs;
+  }
+  
+  // Default response with some sample data
+  return [
+    { name: "resource-1", type: "Microsoft.Storage/storageAccounts", resourceGroup: "rg-storage", location: "eastus" },
+    { name: "resource-2", type: "Microsoft.Web/sites", resourceGroup: "rg-web", location: "westus2" },
+  ];
+};
+
 export async function POST(req: Request) {
   try {
     const actionData = await req.json()
@@ -15,6 +38,7 @@ export async function POST(req: Request) {
     }
 
     switch (actionData.action) {
+      // Original actions
       case "executePrompt":
         // Handle executing a prompt starter
         const prompt = actionData.prompt
@@ -94,6 +118,95 @@ export async function POST(req: Request) {
             text: todoText,
             completed: false,
           },
+        })
+      
+      // Azure Copilot specific actions
+      case "copyQuery":
+        // Handle copying a KQL query
+        const query = actionData.query
+        if (!query) {
+          return NextResponse.json(
+            { error: "Missing query text" },
+            { status: 400 }
+          )
+        }
+        
+        console.log(`Copying query: ${query}`)
+        
+        return NextResponse.json({
+          message: "Query copied to clipboard",
+        })
+      
+      case "runQuery":
+        // Handle running a KQL query
+        const kqlQuery = actionData.query
+        if (!kqlQuery) {
+          return NextResponse.json(
+            { error: "Missing query text" },
+            { status: 400 }
+          )
+        }
+        
+        console.log(`Running query: ${kqlQuery}`)
+        
+        // Execute the query and get results
+        const queryResults = executeKQLQuery(kqlQuery)
+        
+        // Generate a prompt to display the results
+        const resultsPrompt = `Here are the results of the KQL query:\n\n\`\`\`kql\n${kqlQuery}\n\`\`\`\n\nPlease display these results in a table:\n\n${JSON.stringify(queryResults, null, 2)}`
+        
+        return NextResponse.json({
+          message: "Executing your query...",
+          executePrompt: resultsPrompt,
+        })
+      
+      case "restartVMs":
+        // Handle restarting VMs
+        const vmSelection = actionData.vmSelection
+        const confirmToggle = actionData.confirmToggle
+        
+        if (!vmSelection) {
+          return NextResponse.json(
+            { error: "No VMs selected" },
+            { status: 400 }
+          )
+        }
+        
+        if (confirmToggle !== "true") {
+          return NextResponse.json(
+            { error: "Action not confirmed" },
+            { status: 400 }
+          )
+        }
+        
+        // Convert string to array if needed
+        const vmList = typeof vmSelection === 'string' ? vmSelection.split(',') : vmSelection;
+        
+        console.log(`Restarting VMs: ${vmList.join(", ")}`)
+        
+        return NextResponse.json({
+          message: "VMs restarted successfully",
+          executePrompt: `I've successfully restarted the following VMs: ${vmList.join(", ")}. The operation completed successfully.`,
+        })
+      
+      case "showCode":
+        // Handle showing different code languages
+        const language = actionData.language
+        if (!language) {
+          return NextResponse.json(
+            { error: "Missing language selection" },
+            { status: 400 }
+          )
+        }
+        
+        console.log(`Showing code for language: ${language}`)
+        
+        // Generate a prompt to show the selected language
+        const codePrompt = `Please update the code display to show the ${language} example.`
+        
+        return NextResponse.json({
+          message: `Showing ${language} code example`,
+          executePrompt: codePrompt,
         })
 
       default:

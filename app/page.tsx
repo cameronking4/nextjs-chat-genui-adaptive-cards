@@ -125,7 +125,14 @@ export default function ChatPage() {
                         {message.content.includes("```json") ? (
                           <AdaptiveCard cardJson={extractCardJson(message.content) || {}} />
                         ) : (
-                          <div className="bg-muted p-3 rounded-lg">{message.content}</div>
+                          <div className="bg-muted p-3 rounded-lg">
+                            {message.content.split('\n').map((part, index) => (
+                              <div key={index}>
+                                {part}
+                                {index < message.content.split('\n').length - 1 && <br />}
+                              </div>
+                            ))}
+                          </div>
                         )}
                       </div>
                     )}

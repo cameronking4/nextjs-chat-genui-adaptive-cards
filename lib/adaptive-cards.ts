@@ -13,11 +13,11 @@ export const cardTemplates = {
         type: "TextBlock",
         size: "Large",
         weight: "Bolder",
-        text: "Welcome to Adaptive Cards Chat!"
+        text: "Welcome to Copilot in Azure!"
       },
       {
         type: "TextBlock",
-        text: "This chat can generate interactive cards for certain types of information.",
+        text: "I can help you with Azure cloud services using interactive cards for a better experience.",
         wrap: true
       },
       {
@@ -31,26 +31,34 @@ export const cardTemplates = {
         actions: [
           {
             type: "Action.Submit",
-            title: "Show me a weather forecast",
+            title: "Generate a KQL query",
             data: {
               action: "executePrompt",
-              prompt: "Show me the weather forecast for New York City"
+              prompt: "Generate a KQL query to list all virtual machines in my Azure subscription"
             }
           },
           {
             type: "Action.Submit",
-            title: "Create a to-do list",
+            title: "Show Azure VM management",
             data: {
               action: "executePrompt",
-              prompt: "Create a to-do list for my day"
+              prompt: "I need to restart some Azure VMs"
             }
           },
           {
             type: "Action.Submit",
-            title: "Generate a quiz",
+            title: "Create a storage account",
             data: {
               action: "executePrompt",
-              prompt: "Create a quiz about general knowledge"
+              prompt: "Show me how to create an Azure Storage Account with different methods"
+            }
+          },
+          {
+            type: "Action.Submit",
+            title: "Explain Azure VMs",
+            data: {
+              action: "executePrompt",
+              prompt: "What are Azure Virtual Machines and how do they work?"
             }
           }
         ]
