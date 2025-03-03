@@ -9,12 +9,12 @@ const nextConfig = {
             // This sets a CSP allowing framing from your own domain and an additional allowed domain.
             {
               key: 'Content-Security-Policy',
-              value: "frame-ancestors 'self' https://allowed-domain.com",
+              value: "frame-ancestors 'self' https://ciastudio.dev",
             },
             // Optionally, you can override the X-Frame-Options header if it’s being set elsewhere.
             {
               key: 'X-Frame-Options',
-              value: 'SAMEORIGIN',
+              value: 'ALLOW-FROM https://ciastudio.dev',
             },
           ],
         },
